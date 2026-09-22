@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Base64 encoder and decoder. Fast, client-side, no data sent to servers.">
+    <title>Base64 Encoder/Decoder - AI Toolbox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🦾 AI<span>Toolbox</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">API Pricing</a>
+                <a href="tokens.html">Token Counter</a>
+                <a href="prompts.html">Prompt Library</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page">
+        <div class="container">
+            <h1>Base64 Encoder / Decoder</h1>
+            <p class="subtitle">Fast, client-side Base64 encoding and decoding. No data leaves your browser.</p>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+                <button class="btn btn-primary" id="encodeBtn">Encode →</button>
+                <button class="btn btn-secondary" id="decodeBtn">← Decode</button>
+                <button class="btn btn-secondary" id="clearBtn">Clear</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: block;">INPUT</label>
+                    <textarea id="inputText" placeholder="Enter text to encode or Base64 to decode..." style="min-height: 250px;"></textarea>
+                </div>
+                <div>
+                    <label style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: block;">OUTPUT</label>
+                    <textarea id="outputText" placeholder="Result will appear here..." style="min-height: 250px;" readonly></textarea>
+                </div>
+            </div>
+
+            <div style="margin-top: 16px;">
+                <button class="copy-btn" id="copyBtn">Copy Result</button>
+                <span id="statusMsg" style="color: var(--text-dim); margin-left: 12px; font-size: 0.85rem;"></span>
+            </div>
+
+            <div style="margin-top: 32px; padding: 20px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);">
+                <h3 style="font-size: 1rem; margin-bottom: 12px;">ℹ️ About Base64</h3>
+                <p style="color: var(--text-dim); font-size: 0.9rem;">Base64 is an encoding scheme that converts binary data into an ASCII string format. It's commonly used for encoding data in URLs, email attachments, and API payloads. This tool runs entirely in your browser — no data is sent to any server.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const inputEl = document.getElementById('inputText');
+        const outputEl = document.getElementById('outputText');
+        const statusMsg = document.getElementById('statusMsg');
+
+        document.getElementById('encodeBtn').addEventListener('click', () => {
+            try {
+                outputEl.value = btoa(unescape(encodeURIComponent(inputEl.value)));
+                statusMsg.textContent = '✓ Encoded successfully';
+            } catch (e) {
+                outputEl.value = 'Error: ' + e.message;
+                statusMsg.textContent = '✗ Encoding failed';
+            }
+        });
+
+        document.getElementById('decodeBtn').addEventListener('click', () => {
+            try {
+                outputEl.value = decodeURIComponent(escape(atob(inputEl.value.trim())));
+                statusMsg.textContent = '✓ Decoded successfully';
+            } catch (e) {
+                outputEl.value = 'Error: Invalid Base64 string';
+                statusMsg.textContent = '✗ Decoding failed';
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            inputEl.value = '';
+            outputEl.value = '';
+            statusMsg.textContent = '';
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            if (outputEl.value) {
+                navigator.clipboard.writeText(outputEl.value).then(() => {
+                    this.textContent = '✓ Copied!';
+                    this.classList.add('copied');
+                    setTimeout(() => { this.textContent = 'Copy Result'; this.classList.remove('copied'); }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
