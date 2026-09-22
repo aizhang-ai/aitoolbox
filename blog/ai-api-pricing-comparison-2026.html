@@ -1,0 +1,99 @@
+# AI API Pricing Comparison 2026: GPT-4o vs Claude 3.5 vs Gemini vs Llama
+
+**Last updated: September 2026**
+
+Choosing the right AI API can save you thousands of dollars per month. This guide compares the latest pricing from OpenAI, Anthropic, Google, Meta, and more — with a free calculator to estimate your costs.
+
+## Quick Price Comparison Table
+
+| Model | Provider | Input ($/1M tokens) | Output ($/1M tokens) | Context Window |
+|-------|----------|--------------------|-----------------------|----------------|
+| GPT-4o | OpenAI | $2.50 | $10.00 | 128K |
+| GPT-4o mini | OpenAI | $0.15 | $0.60 | 128K |
+| GPT-4 Turbo | OpenAI | $10.00 | $30.00 | 128K |
+| Claude 3.5 Sonnet | Anthropic | $3.00 | $15.00 | 200K |
+| Claude 3.5 Haiku | Anthropic | $0.25 | $1.25 | 200K |
+| Claude 3 Opus | Anthropic | $15.00 | $75.00 | 200K |
+| Gemini 1.5 Pro | Google | $1.25 | $5.00 | 1M |
+| Gemini 1.5 Flash | Google | $0.075 | $0.30 | 1M |
+| Llama 3.1 70B | Meta/Together | $0.88 | $0.88 | 128K |
+| DeepSeek V2 | DeepSeek | $0.14 | $0.28 | 128K |
+| Mistral Large | Mistral | $2.00 | $6.00 | 32K |
+| GLM-4 | Zhipu AI | $0.50 | $0.50 | 128K |
+
+## The Cheapest AI APIs in 2026
+
+If cost is your primary concern, here are the most affordable options:
+
+1. **Gemini 1.5 Flash** — $0.075/$0.30 per 1M tokens. Google's lightweight model is incredibly cheap and has a 1M token context window. Perfect for high-volume tasks like classification, summarization, and extraction.
+
+2. **DeepSeek V2** — $0.14/$0.28 per 1M tokens. The Chinese AI lab offers aggressive pricing with strong coding and reasoning capabilities.
+
+3. **GPT-4o mini** — $0.15/$0.60 per 1M tokens. OpenAI's smallest model is surprisingly capable for its price point and benefits from the same ecosystem as GPT-4o.
+
+4. **Claude 3.5 Haiku** — $0.25/$1.25 per 1M tokens. Anthropic's fast model offers excellent value with a 200K context window.
+
+## Best Value for Performance
+
+If you need strong reasoning and coding ability without breaking the bank:
+
+### Winner: **Claude 3.5 Sonnet** ($3/$15 per 1M)
+Claude 3.5 Sonnet offers the best price-to-performance ratio for most tasks. It matches or exceeds GPT-4o on many benchmarks while being cheaper for input tokens. The 200K context window is also significantly larger than OpenAI's 128K.
+
+### Runner-up: **GPT-4o** ($2.50/$10 per 1M)
+GPT-4o remains the most versatile model with the largest ecosystem of tools, libraries, and community support. If you're already in the OpenAI ecosystem, it's a solid choice.
+
+### Best for Long Documents: **Gemini 1.5 Pro** ($1.25/$5 per 1M)
+With a 1 million token context window, Gemini 1.5 Pro is unmatched for processing long documents, codebases, or video content. The pricing is also very competitive.
+
+## Real-World Cost Examples
+
+### Example 1: Customer Support Chatbot
+Processing 10,000 conversations/month (avg 500 input tokens, 200 output tokens each):
+
+- **GPT-4o**: 5M input + 2M output = $12.50 + $20 = **$32.50/month**
+- **Claude 3.5 Sonnet**: = $15 + $30 = **$45/month**
+- **GPT-4o mini**: = $0.75 + $1.20 = **$1.95/month**
+- **Gemini 1.5 Flash**: = $0.375 + $0.60 = **$0.98/month**
+
+### Example 2: Code Generation Tool
+Processing 1,000 code generation requests (avg 2000 input tokens, 1000 output tokens each):
+
+- **GPT-4o**: 2M input + 1M output = $5 + $10 = **$15/month**
+- **Claude 3.5 Sonnet**: = $6 + $15 = **$21/month**
+- **DeepSeek V2**: = $0.28 + $0.28 = **$0.56/month**
+
+### Example 3: Document Analysis
+Processing 500 long documents (avg 50,000 input tokens, 500 output tokens each):
+
+- **Gemini 1.5 Pro**: 25M input + 0.25M output = $31.25 + $1.25 = **$32.50/month**
+- **Claude 3.5 Sonnet**: = $75 + $3.75 = **$78.75/month**
+- **GPT-4o**: = $62.50 + $2.50 = **$65/month**
+
+## Hidden Costs to Watch Out For
+
+1. **Token counting overhead**: Pre-processing and system prompts consume tokens too
+2. **Rate limiting**: Che APIs may have lower rate limits, requiring more infrastructure
+3. **Retry costs**: Failed requests still consume tokens on some providers
+4. **Image/multimodal tokens**: Vision inputs cost extra on most providers
+5. **Fine-tuning costs**: Some providers charge for training and hosting fine-tuned models
+
+## How to Reduce Your AI API Costs
+
+1. **Use model routing**: Route simple queries to cheaper models (GPT-4o mini, Haiku) and reserve expensive models (GPT-4o, Sonnet) for complex tasks.
+
+2. **Cache responses**: Implement response caching for identical queries. Redis or even in-memory caching can cut costs by 30-50%.
+
+3. **Optimize prompts**: Shorter, more focused prompts use fewer tokens. Remove unnecessary context and instructions.
+
+4. **Batch processing**: Some providers offer batch discounts (Google, OpenAI batch API).
+
+5. **Use open-source for high volume**: Self-host Llama or Mistral models for high-volume tasks where quality differences are acceptable.
+
+## Use Our Free Calculator
+
+We built a **[free AI API cost calculator](../pricing.html)** that lets you input your expected token usage and instantly compare costs across all major providers. No signup required.
+
+---
+
+*Note: Prices reflect published rates as of September 2026. Always verify with official provider documentation before making purchasing decisions. Some providers offer volume discounts or startup credits that aren't reflected here.*
