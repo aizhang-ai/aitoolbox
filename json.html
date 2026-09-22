@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online JSON formatter, validator, and minifier. Format ugly JSON instantly in your browser.">
+    <title>JSON Formatter & Validator - AI Toolbox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🦾 AI<span>Toolbox</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">API Pricing</a>
+                <a href="tokens.html">Token Counter</a>
+                <a href="prompts.html">Prompt Library</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page">
+        <div class="container">
+            <h1>JSON Formatter & Validator</h1>
+            <p class="subtitle">Format, validate, and minify JSON. All processing happens in your browser.</p>
+
+            <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+                <button class="btn btn-primary" id="formatBtn">Format</button>
+                <button class="btn btn-secondary" id="minifyBtn">Minify</button>
+                <button class="btn btn-secondary" id="validateBtn">Validate</button>
+                <button class="btn btn-secondary" id="clearBtn">Clear</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div>
+                    <label style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: block;">INPUT JSON</label>
+                    <textarea id="inputText" placeholder='{"name":"AI Toolbox","tools":["pricing","tokens","prompts"],"version":1.0}' style="min-height: 300px; font-family: monospace;"></textarea>
+                </div>
+                <div>
+                    <label style="color: var(--text-dim); font-size: 0.85rem; margin-bottom: 8px; display: block;">OUTPUT</label>
+                    <textarea id="outputText" placeholder="Formatted JSON will appear here..." style="min-height: 300px; font-family: monospace;" readonly></textarea>
+                </div>
+            </div>
+
+            <div id="statusBar" style="margin-top: 16px; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; display: none;"></div>
+
+            <div style="margin-top: 16px;">
+                <button class="copy-btn" id="copyBtn">Copy Result</button>
+            </div>
+
+            <div style="margin-top: 32px; padding: 20px; background: var(--bg-card); border-radius: var(--radius); border: 1px solid rgba(255,255,255,0.06);">
+                <h3 style="font-size: 1rem; margin-bottom: 12px;">💡 JSON Tips</h3>
+                <ul style="color: var(--text-dim); font-size: 0.9rem; padding-left: 20px; line-height: 2;">
+                    <li>Keys must be in double quotes (not single quotes)</li>
+                    <li>Trailing commas are not allowed</li>
+                    <li>Use null instead of undefined or None</li>
+                    <li>Numbers don't need quotes</li>
+                    <li>Booleans are true/false (lowercase)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        const inputEl = document.getElementById('inputText');
+        const outputEl = document.getElementById('outputText');
+        const statusBar = document.getElementById('statusBar');
+
+        function showStatus(msg, isError) {
+            statusBar.textContent = msg;
+            statusBar.style.display = 'block';
+            if (isError) {
+                statusBar.style.background = 'rgba(231,76,60,0.15)';
+                statusBar.style.color = '#e74c3c';
+                statusBar.style.border = '1px solid rgba(231,76,60,0.3)';
+            } else {
+                statusBar.style.background = 'rgba(0,184,148,0.15)';
+                statusBar.style.color = '#00b894';
+                statusBar.style.border = '1px solid rgba(0,184,148,0.3)';
+            }
+        }
+
+        document.getElementById('formatBtn').addEventListener('click', () => {
+            try {
+                const parsed = JSON.parse(inputEl.value);
+                outputEl.value = JSON.stringify(parsed, null, 2);
+                const size = JSON.stringify(parsed).length;
+                showStatus(`✓ Valid JSON — ${Object.keys(parsed).length} root keys, ${size} bytes minified`, false);
+            } catch (e) {
+                outputEl.value = '';
+                showStatus(`✗ ${e.message}`, true);
+            }
+        });
+
+        document.getElementById('minifyBtn').addEventListener('click', () => {
+            try {
+                const parsed = JSON.parse(inputEl.value);
+                outputEl.value = JSON.stringify(parsed);
+                showStatus(`✓ Minified — ${outputEl.value.length} bytes`, false);
+            } catch (e) {
+                outputEl.value = '';
+                showStatus(`✗ ${e.message}`, true);
+            }
+        });
+
+        document.getElementById('validateBtn').addEventListener('click', () => {
+            try {
+                const parsed = JSON.parse(inputEl.value);
+                outputEl.value = '✓ Valid JSON!';
+                const stats = {
+                    rootType: Array.isArray(parsed) ? 'array' : 'object',
+                    rootKeys: Array.isArray(parsed) ? `${parsed.length} items` : `${Object.keys(parsed).length} keys`,
+                    size: JSON.stringify(parsed).length
+                };
+                showStatus(`✓ Valid JSON — Type: ${stats.rootType}, ${stats.rootKeys}, ${stats.size} bytes`, false);
+            } catch (e) {
+                outputEl.value = '';
+                showStatus(`✗ ${e.message}`, true);
+            }
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            inputEl.value = '';
+            outputEl.value = '';
+            statusBar.style.display = 'none';
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            if (outputEl.value) {
+                navigator.clipboard.writeText(outputEl.value).then(() => {
+                    this.textContent = '✓ Copied!';
+                    this.classList.add('copied');
+                    setTimeout(() => { this.textContent = 'Copy Result'; this.classList.remove('copied'); }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
