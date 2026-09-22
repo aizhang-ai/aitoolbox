@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free AI prompt library - curated, tested prompts for coding, writing, analysis, marketing, and more. Copy with one click.">
+    <title>AI Prompt Library - AI Toolbox</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">🦾 AI<span>Toolbox</span></a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="pricing.html">API Pricing</a>
+                <a href="tokens.html">Token Counter</a>
+                <a href="prompts.html" class="active">Prompt Library</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="tool-page">
+        <div class="container">
+            <h1>AI Prompt Library</h1>
+            <p class="subtitle">Curated, tested prompts for every use case. Copy with one click.</p>
+
+            <input type="text" class="search-bar" id="searchBar" placeholder="Search prompts...">
+
+            <div class="prompt-filters" id="filterButtons">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="coding">Coding</button>
+                <button class="filter-btn" data-category="writing">Writing</button>
+                <button class="filter-btn" data-category="marketing">Marketing</button>
+                <button class="filter-btn" data-category="analysis">Analysis</button>
+                <button class="filter-btn" data-category="productivity">Productivity</button>
+            </div>
+
+            <div class="prompt-grid" id="promptGrid"></div>
+        </div>
+    </div>
+
+    <script src="js/prompts.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        let currentCategory = 'all';
+        let searchTerm = '';
+
+        function renderPrompts() {
+            const grid = document.getElementById('promptGrid');
+            grid.innerHTML = '';
+
+            const filtered = PROMPTS.filter(p => {
+                const matchCategory = currentCategory === 'all' || p.category === currentCategory;
+                const matchSearch = !searchTerm || 
+                    p.title.toLowerCase().includes(searchTerm) ||
+                    p.description.toLowerCase().includes(searchTerm) ||
+                    p.text.toLowerCase().includes(searchTerm);
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="color: var(--text-dim); text-align: center; grid-column: 1/-1;">No prompts found.</p>';
+                return;
+            }
+
+            filtered.forEach(prompt => {
+                const card = document.createElement('div');
+                card.className = 'prompt-card';
+                card.innerHTML = `
+                    <span class="tag">${prompt.category}</span>
+                    <h3>${prompt.title}</h3>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">${prompt.description}</p>
+                    <div class="prompt-text">${prompt.text}</div>
+                    <button class="copy-btn" onclick="copyToClipboard(\`${prompt.text.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`, this)">Copy Prompt</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchBar').addEventListener('input', (e) => {
+            searchTerm = e.target.value.toLowerCase();
+            renderPrompts();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentCategory = e.target.dataset.category;
+                renderPrompts();
+            });
+        });
+
+        renderPrompts();
+    </script>
+</body>
+</html>
